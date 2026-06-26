@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sounds of Lesbos — a lyre card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,300;0,400;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sea:#170d20; --sea2:#1f1330; --sea3:#271838;
+    --lead:#9a98a6; --lead-dim:#5b5868; --line:rgba(154,152,166,.16);
+    --parch:#e9e2d2; --parch-dim:#b9b2a3;
+    --gold:#d9a441; --gold-dim:#a87f33; --verd:#73b3a3; --murex:#9a3d68;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;min-height:100vh;background:var(--sea);color:var(--parch);
+    font-family:"Spectral",Georgia,serif;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(1000px 520px at 82% -10%, rgba(154,61,104,.16), transparent 60%),
+      radial-gradient(820px 640px at 5% 112%, rgba(115,179,163,.10), transparent 55%);
+    display:flex;justify-content:center;
+  }
+  .card{max-width:560px;width:100%;padding:34px 26px 46px}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.28em;
+    text-transform:uppercase;color:var(--gold-dim)}
+  h1{font-family:"Cormorant Garamond",serif;font-weight:300;font-size:clamp(40px,11vw,64px);
+    margin:8px 0 0;line-height:.96;letter-spacing:-.5px}
+  h1 .gk{display:block;font-size:.62em;color:var(--lead);letter-spacing:2px;margin-top:2px}
+  .sub{font-family:"Spectral",serif;font-style:italic;font-weight:300;color:var(--parch-dim);
+    font-size:16.5px;margin:16px 0 0;max-width:42ch}
+
+  /* lyre */
+  .lyre{margin:26px auto 6px;display:block}
+  .lyre svg{display:block;width:170px;height:auto;margin:0 auto}
+  .strings line{cursor:pointer;transition:stroke .1s}
+  .strings line:hover{stroke:var(--gold)}
+  .pluckhint{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:10.5px;
+    color:var(--lead-dim);letter-spacing:.12em;margin-top:2px}
+
+  .nowplaying{height:20px;text-align:center;font-family:"IBM Plex Mono",monospace;
+    font-size:11px;letter-spacing:.14em;color:var(--verd);margin:18px 0 8px;
+    opacity:0;transition:opacity .25s}
+  .nowplaying.on{opacity:1}
+
+  .btns{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+  button.play{
+    display:flex;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;
+    background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.18));
+    border:1px solid var(--line);border-radius:5px;color:var(--parch);
+    padding:14px 16px;font-family:"Spectral",serif;font-size:16px;transition:.15s}
+  button.play:hover{border-color:rgba(217,164,65,.5);background:rgba(217,164,65,.06)}
+  button.play:active{transform:translateY(1px)}
+  button.play .ico{font-size:14px;color:var(--gold);width:18px;flex:0 0 18px;text-align:center}
+  button.play .t{flex:1}
+  button.play .t b{font-weight:500;display:block;letter-spacing:.2px}
+  button.play .t span{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--lead);
+    letter-spacing:.04em}
+  button.play.busy{opacity:.55;pointer-events:none}
+  button.play.busy .ico{color:var(--verd)}
+
+  .note{margin-top:26px;border-top:1px solid var(--line);padding-top:16px;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.85;color:var(--lead-dim);
+    letter-spacing:.02em}
+  .note b{color:var(--gold-dim);font-weight:500}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="eyebrow">a purple-paper sound card</div>
+  <h1>Sounds of Lesbos<span class="gk">ἦχοι Λέσβου</span></h1>
+  <p class="sub">No recordings of antiquity exist, and Sappho's melodies are lost. But the pitch-data survived. Everything below is synthesised live, on a plucked-string voice, from real ancient material — the modes, the Pythagorean tuning, the metre. Tap to listen.</p>
+
+  <div class="lyre">
+    <svg viewBox="0 0 200 150" role="img" aria-label="A seven-string lyre — click the strings to pluck">
+      <ellipse cx="100" cy="118" rx="34" ry="15" fill="#2a1d38" stroke="#5b5868" stroke-width="1.3"/>
+      <path d="M70,112 C44,98 32,68 56,30" fill="none" stroke="#9a98a6" stroke-width="4" stroke-linecap="round"/>
+      <path d="M130,112 C156,98 168,68 144,30" fill="none" stroke="#9a98a6" stroke-width="4" stroke-linecap="round"/>
+      <line x1="56" y1="30" x2="144" y2="30" stroke="#9a98a6" stroke-width="4" stroke-linecap="round"/>
+      <line x1="64" y1="108" x2="136" y2="108" stroke="#5b5868" stroke-width="1.6"/>
+      <g class="strings" stroke="#a87f33" stroke-width="1.4">
+        <line data-d="1" x1="66" y1="33" x2="66" y2="106"/>
+        <line data-d="2" x1="77" y1="33" x2="77" y2="106"/>
+        <line data-d="3" x1="88.5" y1="33" x2="88.5" y2="106"/>
+        <line data-d="4" x1="100" y1="33" x2="100" y2="106"/>
+        <line data-d="5" x1="111.5" y1="33" x2="111.5" y2="106"/>
+        <line data-d="6" x1="123" y1="33" x2="123" y2="106"/>
+        <line data-d="7" x1="134" y1="33" x2="134" y2="106"/>
+      </g>
+    </svg>
+  </div>
+  <div class="pluckhint">seven strings · Terpander's lyre · tap to pluck</div>
+
+  <div class="nowplaying" id="np">♪</div>
+
+  <div class="btns">
+    <button class="play" data-act="mixo">
+      <span class="ico">▶</span><span class="t"><b>Sappho's mode — the Mixolydian</b><span>the scale Aristoxenus credited to her · the intense one</span></span>
+    </button>
+    <button class="play" data-act="dorian">
+      <span class="ico">▶</span><span class="t"><b>The Dorian</b><span>for contrast · the grave, "noble" mode</span></span>
+    </button>
+    <button class="play" data-act="enh">
+      <span class="ico">▶</span><span class="t"><b>Quarter-tones — the enharmonic genus</b><span>the sound most alien to a modern ear</span></span>
+    </button>
+    <button class="play" data-act="rhythm">
+      <span class="ico">▶</span><span class="t"><b>The Sapphic rhythm</b><span>– ‿ – × – ‿ ‿ – ‿ – – · the metre as actual beats</span></span>
+    </button>
+    <button class="play" data-act="phrase">
+      <span class="ico">▶</span><span class="t"><b>A phrase in the Seikilos mode</b><span>evocation in the Phrygian octave — not the lost original</span></span>
+    </button>
+  </div>
+
+  <div class="note">
+    <b>what's real here.</b> the pitches come from the documented ancient octave species and <b>Pythagorean tuning</b> (whole tone 9:8, leimma 256:243); the enharmonic genus uses true quarter-tones; the rhythm is the actual quantitative metre (long ≈ twice a short). <b>what's not.</b> the plucked timbre is a modern synthesis of a lyre, not a recording — none exist. the "Seikilos mode" phrase is an evocation in the right scale and lilt, <b>not</b> the surviving Seikilos melody, which needs its score read note-for-note. sound is generated by your browser; nothing is downloaded.
+  </div>
+</div>
+
+<script>
+(function(){
+  let ctx=null, master=null;
+  const TONIC = 196.00; // G3 — a comfortable lyre register
+  const T = 9/8, S = 256/243; // Pythagorean tone & leimma
+
+  function ratiosFromSteps(steps){ // steps array of T/S, returns 8 ratios incl octave
+    const r=[1]; let cur=1;
+    for(const st of steps){ cur*=st; r.push(cur); }
+    return r;
+  }
+  // ANCIENT octave species (Cleonides) from their own tonic:
+  const MIXO   = ratiosFromSteps([S,T,T,S,T,T,T]); // B–b species (Sappho's)
+  const DORIAN = ratiosFromSteps([S,T,T,T,S,T,T]); // E–e
+  const PHRYG  = ratiosFromSteps([T,S,T,T,T,S,T]); // D–d (Seikilos's octave)
+  // enharmonic octave in cents -> ratios
+  const ENH = [0,50,100,498,702,752,802,1200].map(c=>Math.pow(2,c/1200));
+
+  function init(){
+    if(ctx) return;
+    ctx = new (window.AudioContext||window.webkitAudioContext)();
+    master = ctx.createGain(); master.gain.value=0.85;
+    // simple algorithmic reverb (generated impulse)
+    const conv = ctx.createConvolver();
+    const rate=ctx.sampleRate, len=Math.floor(rate*2.0), ir=ctx.createBuffer(2,len,rate);
+    for(let c=0;c<2;c++){const d=ir.getChannelData(c);
+      for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6);}
+    conv.buffer=ir;
+    const wet=ctx.createGain(); wet.gain.value=0.22;
+    const dry=ctx.createGain(); dry.gain.value=0.92;
+    master.connect(dry).connect(ctx.destination);
+    master.connect(conv); conv.connect(wet).connect(ctx.destination);
+  }
+  function resume(){ if(ctx && ctx.state==='suspended') ctx.resume(); }
+
+  // Karplus–Strong plucked string -> precomputed buffer for exact timing
+  function pluck(freq, t, dur, gain){
+    gain = gain||0.6;
+    const rate=ctx.sampleRate;
+    const N=Math.max(2,Math.round(rate/freq));
+    const len=Math.max(N+4,Math.floor(rate*dur));
+    const buf=ctx.createBuffer(1,len,rate), d=buf.getChannelData(0);
+    for(let i=0;i<N;i++) d[i]=Math.random()*2-1;
+    const decay=0.9965;
+    for(let i=N;i<len;i++) d[i]=decay*0.5*(d[i-N]+d[i-N+1]);
+    const src=ctx.createBufferSource(); src.buffer=buf;
+    const g=ctx.createGain();
+    g.gain.setValueAtTime(gain,t);
+    g.gain.exponentialRampToValueAtTime(0.0006,t+dur);
+    src.connect(g).connect(master);
+    src.start(t); src.stop(t+dur+0.02);
+  }
+
+  const np=document.getElementById('np');
+  let busyUntil=0;
+  function busy(btn, ms){
+    document.querySelectorAll('button.play').forEach(b=>b.classList.add('busy'));
+    np.classList.add('on'); np.textContent='♪  '+btn.querySelector('b').textContent;
+    clearTimeout(busy._t);
+    busy._t=setTimeout(()=>{
+      document.querySelectorAll('button.play').forEach(b=>b.classList.remove('busy'));
+      np.classList.remove('on');
+    }, ms);
+  }
+
+  // play a scale ascending then descending
+  function playScale(ratios, beat){
+    beat=beat||0.42; const t0=ctx.currentTime+0.05;
+    const seq=ratios.concat(ratios.slice(0,-1).reverse());
+    let t=t0;
+    seq.forEach((r,i)=>{ pluck(TONIC*r, t, beat*1.7, 0.6); t+=beat; });
+    return (seq.length*beat+0.6)*1000;
+  }
+  // the Sapphic stanza as rhythm (long=2 units, short=1, anceps=2)
+  function playRhythm(){
+    const unit=0.165, t0=ctx.currentTime+0.05;
+    const hen=[2,1,2,2,2,1,1,2,1,2,2];           // hendecasyllable
+    const ado=[2,1,1,2,2];                        // adonean
+    const lines=[hen,hen,hen,ado];
+    let t=t0, total=0;
+    lines.forEach((line,li)=>{
+      line.forEach((L,i)=>{
+        // long syllables on tonic, shorts a fifth above -> audible rise/fall
+        const f = (L>=2)? TONIC : TONIC*(3/2);
+        pluck(f, t, unit*L*1.6, L>=2?0.66:0.5);
+        t += unit*L;
+      });
+      t += unit*1.4; // breath between lines
+    });
+    return (t-t0+0.6)*1000;
+  }
+  // an evocation in the Phrygian (Seikilos) octave — iambic lilt, resolves to tonic
+  function playPhrase(){
+    const u=0.30, t0=ctx.currentTime+0.05;
+    // [degree(1..8), lengthUnits]
+    const ph=[[4,1],[5,1],[5,2],[4,1],[3,1],[4,2],[5,1],[6,1],[5,2],
+              [4,1],[3,1],[2,1],[3,2],[2,1],[1,3]];
+    let t=t0;
+    ph.forEach(([deg,L])=>{
+      const r = PHRYG[deg-1];
+      pluck(TONIC*r, t, u*L*1.5, 0.62);
+      t += u*L;
+    });
+    return (t-t0+0.8)*1000;
+  }
+
+  const acts={
+    mixo:()=>playScale(MIXO),
+    dorian:()=>playScale(DORIAN),
+    enh:()=>playScale(ENH,0.5),
+    rhythm:()=>playRhythm(),
+    phrase:()=>playPhrase()
+  };
+
+  document.querySelectorAll('button.play').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      init(); resume();
+      const ms=acts[btn.dataset.act]();
+      busy(btn, ms);
+    });
+  });
+
+  // strummable strings -> Phrygian heptachord (Terpander's seven)
+  document.querySelectorAll('.strings line').forEach(ln=>{
+    const handler=()=>{ init(); resume();
+      const deg=parseInt(ln.dataset.d,10);
+      pluck(TONIC*PHRYG[deg-1], ctx.currentTime+0.005, 1.6, 0.6);
+      ln.style.stroke='#d9a441'; setTimeout(()=>ln.style.stroke='', 140);
+    };
+    ln.addEventListener('click',handler);
+    ln.addEventListener('touchstart',e=>{e.preventDefault();handler();},{passive:false});
+  });
+})();
+</script>
+</body>
+</html>
